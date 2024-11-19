@@ -1,0 +1,72 @@
+IMAP Email Client with TLS Support  
+
+Author: Artem Dvorychanskyi, xdvory00@stud.fit.vutbr.cz  
+
+Overview:  
+This command-line application is a lightweight tool for accessing email accounts via the IMAP protocol. The program connects to a specified server, retrieves emails, and saves them as individual files in a user-defined directory. Messages are optionally marked as read during this process. The client supports encrypted communication using TLS/SSL for enhanced security.  
+
+Key Characteristics:  
+- Securely retrieves emails from IMAP servers using TLS encryption.  
+- Downloads either full messages or just their headers.  
+- Offers flexibility through various command-line options.  
+- Automatically organizes fetched messages into files within a designated folder.  
+
+---
+
+FILES INCLUDED:  
+1. `Makefile` - Script for building, cleaning, and archiving the program.  
+2. `imap.hh` - Contains the declarations and structure for handling IMAP functionality.  
+3. `imap.cc` - Implements the methods required for server communication and message handling.  
+4. `imapcl.cc` - The main file that integrates the program logic and parses user commands.  
+5. `manual.pds` - Documentation.
+
+
+---
+
+BUILDING THE PROGRAM:  
+
+1. To compile the application:  
+   make  
+
+2. To remove all compiled files and clean the directory:  
+   make clean  
+   
+---
+
+HOW TO RUN THE PROGRAM:  
+The program requires a set of arguments to execute properly. The basic syntax is as follows:  
+imapcl <server> [OPTIONS]  
+
+ARGUMENTS:  
+`server` - The hostname or IP address of the IMAP server.  
+`-p <port>` - Specify the port number for the connection. Defaults are assigned based on whether encryption is enabled.  
+`-T` - Enables encrypted communication via TLS.  
+`-c <certfile>` - Path to a certificate file used for server verification.  
+`-C <certdir>` - Path to a directory containing certificates for validation. Defaults to `/etc/ssl/certs`.  
+`-n` - Fetches only unread messages.  
+`-h` - Downloads only headers, skipping message bodies.  
+`-a <auth_file>` - Path to a file containing login credentials (mandatory).  
+`-b <MAILBOX>` - Specify a mailbox to fetch messages from (default is INBOX).  
+`-o <out_dir>` - Directory where messages will be saved (mandatory).  
+
+---
+
+AUTHENTICATION FILE:  
+The authentication file must contain the email accounts credentials in the following format:  
+username = <your_email_username>  
+password = <your_email_password>  
+
+Ensure the file ends with a newline character and is stored securely to prevent unauthorized access.  
+
+---
+
+OUTPUT FORMAT:  
+After successful execution, the program outputs a single line indicating the number of messages downloaded. Example:  
+Downloaded 12 messages from mailbox INBOX.  
+
+Messages are saved individually in the specified output folder with a unique filename for each. Each file follows the RFC 5322 standard, including headers and the email body.  
+
+
+ADDITIONAL NOTES:  
+1. The program requires a valid authentication file to establish a connection. Without it, the execution will fail.  
+2. Ensure the output directory exists and is writable before running the program.  
